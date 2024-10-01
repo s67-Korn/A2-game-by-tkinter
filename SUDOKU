@@ -1,0 +1,30 @@
+from tkinter import *
+
+sudoku_grid = [                        # set the number for sudoku game
+    [5, 3, 0, 0, 7, 0, 0, 0, 0],
+    [6, 0, 0, 1, 9, 5, 0, 0, 0],
+    [0, 9, 8, 0, 0, 0, 0, 6, 0],
+    [8, 0, 0, 0, 6, 0, 0, 0, 3],
+    [4, 0, 0, 8, 0, 3, 0, 0, 1],
+    [7, 0, 0, 0, 2, 0, 0, 0, 6],
+    [0, 6, 0, 0, 0, 0, 2, 8, 0],
+    [0, 0, 0, 4, 1, 9, 0, 0, 5],
+    [0, 0, 0, 0, 8, 0, 0, 7, 9]
+]
+
+def create_grid():                    # create sudoku grid
+    for i in range(len(sudoku_grid)):
+        for j in range(len(sudoku_grid[i])):      # we'll start from row and then into each column of said row
+            if sudoku_grid[i][j] == 0:            # if the variable in "sudoku_grid" is 0, that means it's where user can input the number.
+                entry = Entry(window, width=3, font=('Courier', 24), justify='center', fg='#000000', borderwidth=2, relief='solid')          # create a type bar for user
+                entry.grid(row=i, column=j, padx=5, pady=5)
+            else:                                 # if the virable in "sudoku_grid" is NOT 0, that's where the given number is.
+                label = Label(window, text=str(sudoku_grid[i][j]), width=3, font=('Courier', 24), justify='center', fg='#000000',            # create a label to show the number
+                              borderwidth=2)
+                label.grid(row=i, column=j, padx=5, pady=5)
+
+window = Tk()                 # instantiate the window
+window.title("• Sudoku •")    # set window's name
+create_grid()                 # call create_grid function
+
+window.mainloop()             # show the window
