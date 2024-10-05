@@ -33,26 +33,32 @@ def create_grid():
             if sudoku_grid[i][j] == 0:
                 entry = Entry(window, width=3, font=('Courier', 24), justify='center', fg='#000000', borderwidth=2, relief='solid')
                 entry.grid(row=i, column=j, padx=5, pady=5)
-                row.append(entry) # add the number in the in the entry into row 
+                row.append(entry) # add the number in the entry into row 
             else:
                 label = Label(window, text=str(sudoku_grid[i][j]), width=3, font=('Courier', 24), justify='center', fg='#000000',
                               borderwidth=2)
                 label.grid(row=i, column=j, padx=5, pady=5)
                 row.append(label) # add the given number into row
-            entry_grid.append(row) # add the row into entry_grid
+        entry_grid.append(row) # it was placed in column loop which will create more entries than it was. Now change to row loop
 
 
 def check():
+    incorrect = 51  # strat incorrect counts
     for i in range(len(key)):
         for j in range(len(key[i])):
-            incorrect = 51                    # the number of 0 in sudoku_grid represents the empty and the incorrect answers
-            if sudoku_grid[i][j] == 0:        # check only the entry. make the function more efficient 
-                entry_value = entry_grid[i][j].get()                        # take the value from the entry
-                if entry_value.isdigit() and int(entry_value) == key[i][j]: # if the vale is a number and the same number as key will decrease the incorrect count by 1
-                    incorrect -= 1
+            if isinstance(entry_grid[i][j], Entry):        # check if the grid is the entry.
+                entry_value = entry_grid[i][j].get()       # get the value for that entry
+                if entry_value.isdigit() and int(entry_value) == key[i][j]:    # if the entry's value is a number and matches the key
+                    incorrect -= 1                                             # decrease incorrect counts by one
+    check_window = Toplevel()    # create a new window on top of the main window and connect them
+    if incorrect > 0:                                                                                    # if there are still any incorrect counts
+        Label(check_window, justify='center', text=str(incorrect) + " incorrect(s) grid left").pack()    # show how many incorrect counts are left
+    else:
+        Label(check_window, justify='center', text="You win!").pack()                                    # if all correct, say you win
+
 
                     
-def submit_button():                                                                    # create a submit button for user to check the answer with the command check
+def submit_button():                                                                  
     submit_button=Button(window, text="Submit", font=('Courier', 24), command=check)
     submit_button.grid(row=5, column=11, padx=5, pady=5)
 
